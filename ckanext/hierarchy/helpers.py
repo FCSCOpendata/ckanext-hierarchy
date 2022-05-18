@@ -98,3 +98,45 @@ def is_include_children_selected(fields):
     if request.params.get('include_children'):
         include_children_selected = True
     return include_children_selected
+
+
+def render_tree(top_nodes=None, group_type='organization'):
+    '''Returns HTML for a hierarchy of all publishers'''
+    if not top_nodes:
+        from ckan.logic import get_action
+        from ckan import model
+        context = {'model': model, 'session': model.Session}
+        top_nodes = get_action('group_tree')(context=context,
+                data_dict={'type': group_type})
+        
+
+    return _render_tree(top_nodes, group_type)
+
+def _render_tree(top_nodes, group_type):
+    '''Renders a tree of nodes. 10x faster than Jinja/organization_tree.html
+    Note: avoids the slow url_for routine.
+    '''
+    html = '<ul class="hierarchy-tree-top">'
+    for node in top_nodes:
+        html += _render_tree_node(node, group_type)
+    return html + '</ul>'
+
+def _render_tree_node(node, group_type):
+    body = ''
+    node_name = node['name']
+    if node['highlighted']:
+        body += f'<li class="highlighted" id="node_{node_name}">'
+    else:
+        body += f'<li id="node_{node_name}">'
+
+    if group_type == "organization":
+        body += '<a href="/organization/%s">%s</a>' % (node['name'], node['title'])
+    else:
+        body += '<a href="/group/%s">%s</a>' % (node['name'], node['title'])
+    if node['children']:
+        body+= '<ul class="hierarchy-tree">'
+        for child in node['children']:
+            body += _render_tree_node(child, group_type)
+        body += '</ul>'
+    body += "</li>"
+    return body

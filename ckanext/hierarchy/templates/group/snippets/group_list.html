@@ -9,12 +9,8 @@ Example:
 #}
 
 {% if q is not defined %}{% set q = c.q %}{% endif %}
-
+{% set type = 'asset' if h.ckan_version() > '2.9' else 'resource' %}
+{% include 'hierarchy/snippets/hierarchy_' ~ type ~ '.html' %}
 <div id="publisher-tree">
-     {% if q %}
-     	{% set top_nodes = h.group_tree_highlight(groups, h.group_tree(type_='group')) %}
-     {% else %}
-     	{% set top_nodes = h.group_tree(organizations=groups, type_='group') %}
-     {% endif %}
-     {% snippet 'group/snippets/group_tree.html', top_nodes=top_nodes, use_longnames=True %}
+     {{ h.render_tree(group_type="group") | safe }}
 </div>

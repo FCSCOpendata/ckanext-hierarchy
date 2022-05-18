@@ -18,7 +18,9 @@
 {% block description %}
     {{ super() }}
     {% if group_dict %}
+    {% set type = 'asset' if h.ckan_version() > '2.9' else 'resource' %}
+    {% include 'hierarchy/snippets/hierarchy_' ~ type ~ '.html' %}
         <hr>
-        {% snippet 'group/snippets/group_tree.html', top_nodes=[h.group_tree_section(id_=group_dict.id, type_=group_dict.type, include_siblings=False)], use_shortnames=True %}
+        {{ h.render_tree(top_nodes=[h.group_tree_section(id_=group_dict.id, type_=group_dict.type, include_siblings=False)],group_type="group") | safe }}
     {% endif %}
 {% endblock %}
