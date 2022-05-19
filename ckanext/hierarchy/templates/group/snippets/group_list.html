@@ -17,5 +17,5 @@ Example:
      {% else %}
      	{% set top_nodes = h.group_tree(organizations=groups, type_='group') %}
      {% endif %}
-     {{ h.render_tree(top_nodes=top_nodes,group_type="group") | safe }}
+     {{ h.render_tree_list(top_nodes=top_nodes,group_type="group") | safe }}
 </div>

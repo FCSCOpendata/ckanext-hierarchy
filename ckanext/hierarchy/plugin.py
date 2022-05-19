@@ -77,7 +77,8 @@ class HierarchyDisplay(p.SingletonPlugin):
                 helpers.get_allowable_parent_groups,
                 'is_include_children_selected':
                 helpers.is_include_children_selected,
-                'render_tree': helpers.render_tree
+                'render_tree': helpers.render_tree,
+                'render_tree_list': helpers.render_tree_list
                 }
 
     # IPackageController

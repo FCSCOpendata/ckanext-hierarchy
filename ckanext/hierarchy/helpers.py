@@ -112,6 +112,14 @@ def render_tree(top_nodes=None, group_type='organization'):
 
     return _render_tree(top_nodes, group_type)
 
+
+def render_tree_list(top_nodes=None, group_type='organization'):
+    '''Returns HTML for a hierarchy of all publishers'''
+    if not top_nodes:
+        return ''
+    return _render_tree(top_nodes, group_type)
+
+
 def _render_tree(top_nodes, group_type):
     '''Renders a tree of nodes. 10x faster than Jinja/organization_tree.html
     Note: avoids the slow url_for routine.

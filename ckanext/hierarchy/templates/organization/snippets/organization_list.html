@@ -8,7 +8,7 @@ Example:
 
 #}
 
-{% if q is not defined %}{% set q = c.q %}{% endif %}
+{% if q is not defined %}{% set q = g.q %}{% endif %}
 {% set type = 'asset' if h.ckan_version() > '2.9' else 'resource' %}
 {% include 'hierarchy/snippets/hierarchy_' ~ type ~ '.html' %}
 <div id="publisher-tree">
@@ -17,5 +17,5 @@ Example:
      {% else %}
      	{% set top_nodes = h.group_tree(organizations=organizations, type_='organization') %}
      {% endif %}
-     {{ h.render_tree(top_nodes=top_nodes) | safe }}
+     {{ h.render_tree_list(top_nodes=top_nodes) | safe }}
 </div>
