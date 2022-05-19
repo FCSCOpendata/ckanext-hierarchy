@@ -12,5 +12,10 @@ Example:
 {% set type = 'asset' if h.ckan_version() > '2.9' else 'resource' %}
 {% include 'hierarchy/snippets/hierarchy_' ~ type ~ '.html' %}
 <div id="publisher-tree">
-     {{ h.render_tree() | safe }}
+     {% if q %}
+     	{% set top_nodes = h.group_tree_highlight(organizations, h.group_tree(type_='organization')) %}
+     {% else %}
+     	{% set top_nodes = h.group_tree(organizations=organizations, type_='organization') %}
+     {% endif %}
+     {{ h.render_tree(top_nodes=top_nodes) | safe }}
 </div>
