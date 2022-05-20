@@ -14,9 +14,10 @@
 
 {% block organization_description %}
   {{ super() }}
-
+  {% set type = 'asset' if h.ckan_version() > '2.9' else 'resource' %}
+  {% include 'hierarchy/snippets/hierarchy_' ~ type ~ '.html' %}
   <div id="organization-tree">
-     {% snippet 'organization/snippets/organization_tree.html', top_nodes=[h.group_tree_section(id_=group_dict.id, type_=group_dict.type)], use_longnames=True %}
+      {{ h.render_tree(top_nodes=[h.group_tree_section(id_=group_dict.id, type_=group_dict.type)]) | safe }}
   </div>
 
 {% endblock %}
