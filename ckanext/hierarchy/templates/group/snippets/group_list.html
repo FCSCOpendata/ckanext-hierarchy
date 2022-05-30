@@ -17,5 +17,9 @@ Example:
      {% else %}
      	{% set top_nodes = h.group_tree(organizations=groups, type_='group') %}
      {% endif %}
-     {{ h.render_tree_list(top_nodes=top_nodes,group_type="group") | safe }}
+     {% if pkg_dict %}
+          {{ h.render_tree_list(top_nodes=h.package_themes_list(groups),group_type="group") | safe }}
+     {% else %}
+          {{ h.render_tree_list(top_nodes=top_nodes,group_type="group") | safe }}
+     {% endif %}
 </div>

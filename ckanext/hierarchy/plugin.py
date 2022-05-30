@@ -78,7 +78,8 @@ class HierarchyDisplay(p.SingletonPlugin):
                 'is_include_children_selected':
                 helpers.is_include_children_selected,
                 'render_tree': helpers.render_tree,
-                'render_tree_list': helpers.render_tree_list
+                'render_tree_list': helpers.render_tree_list,
+                'package_themes_list': helpers.package_themes_list
                 }
 
     # IPackageController

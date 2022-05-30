@@ -148,3 +148,41 @@ def _render_tree_node(node, group_type):
         body += '</ul>'
     body += "</li>"
     return body
+
+
+
+def package_themes_list(groups):
+    group_rel_dict = {}
+
+    for group in groups:
+        group_id = group.get("id")
+
+        if group_id not in group_rel_dict:
+            group_dict = group_tree_section(id_=group_id, type_= "group")
+            parent_id = group_dict.get("id")
+
+            if parent_id in group_rel_dict:
+                parent_data = group_rel_dict[parent_id].get("data")
+                child_dict = [ch for ch in parent_data.get("children") if ch.get("id")== group_id]
+                child_dict[0]['highlighted'] = True
+
+            else:
+                id = group_id if group_id == parent_id else parent_id
+                group_rel_dict[id] = {
+                    "data": group_dict,
+                    "child": [ch.get("id") for ch in group_dict["children"]]
+                }
+        else:
+            higlighted = group_rel_dict[group_id]["data"].get("higlighted")
+            if not higlighted:
+                highlighted = True
+
+    group_list = []
+    for _, values in group_rel_dict.items():
+        group_list.append(values.get('data'))
+
+    return group_list
+                    
+
+            
+            
