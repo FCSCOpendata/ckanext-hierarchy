@@ -1,6 +1,7 @@
 import ckan.plugins as p
 import ckan.model as model
 from ckan.common import request
+from ckan.lib.helpers import helper_functions as h
 
 
 def group_tree(organizations=[], type_='organization'):
@@ -138,9 +139,11 @@ def _render_tree_node(node, group_type):
         body += f'<li id="node_{node_name}">'
 
     if group_type == "organization":
-        body += '<a href="/organization/%s">%s</a>' % (node['name'], node['title'])
+        url_with_name = h.url_for(u'{}.read'.format(group_type), id=node['name'])
+        body += '<a href="%s">%s</a>' % (url_with_name, node['title'])
     else:
-        body += '<a href="/group/%s">%s</a>' % (node['name'], node['title'])
+        url_with_name = h.url_for(u'{}.read'.format(group_type), id=node['name'])
+        body += '<a href="%s">%s</a>' % (url_with_name, node['title'])
     if node['children']:
         body+= '<ul class="hierarchy-tree">'
         for child in node['children']:
